@@ -3,7 +3,11 @@ import time
 import codecs
 import ddddocr
 import sys
+import logging
+from datetime import datetime
 
+# 配置日志输出到文件
+logging.basicConfig(filename='log.txt', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def check_internet_connection():
     try:
@@ -15,7 +19,7 @@ def check_internet_connection():
     except requests.exceptions.RequestException:
         return False
 
-
+# ... 其余代码省略 ...
 def get_yzm():
     DAT = int(time.time() * 1000)
     yzm_url = f'http://192.168.116.8:801/eportal/?c=main&a=getCode&v=3.0_{DAT}'
@@ -43,23 +47,33 @@ def handle(res, DAT):
     url = f'http://192.168.116.8:801/eportal/?c=Portal&a=check_captcha&callback=dr{DAT}&captcha={res}&_={DAT}'
     r = requests.get(url)
     print('提交验证码', r.status_code)
-
-
 if __name__ == '__main__':
     try:
+        # 配置日志输出到控制台和文件
+        console = logging.StreamHandler()
+        file_handler = logging.FileHandler('log.txt')
+        logging.basicConfig(level=logging.INFO,
+                            format='%(asctime)s - %(levelname)s - %(message)s',
+                            handlers=[console, file_handler])
+
         username = input('输入校园网账号：')
         password = input('输入校园网密码：')
+        print('login')
+
         while True:
             time.sleep(3)
+
             if check_internet_connection():
-                print('已联网')
                 pass
+
             else:
-                print('正在重连')
+                current_time = datetime.now()
+                logging.info(f'正在重连 {current_time}')
                 res, DAT = get_yzm()
                 handle(res, DAT)
                 login(DAT, username, password)
     except Exception as e:
-        print('发生错误:', str(e))
+        current_time = datetime.now()
+        logging.exception(f'发生错误: {str(e)} {current_time}')
         input('按任意键退出')
         sys.exit(1)

@@ -47,6 +47,8 @@ def handle(res, DAT):
 
 if __name__ == '__main__':
     try:
+        username = input('输入校园网账号：')
+        password = input('输入校园网密码：')
         while True:
             time.sleep(3)
             if check_internet_connection():
@@ -56,9 +58,6 @@ if __name__ == '__main__':
                 print('正在重连')
                 res, DAT = get_yzm()
                 handle(res, DAT)
-
-                username = input('输入校园网账号')
-                password = input('输入校园网密码')
                 login(DAT, username, password)
     except Exception as e:
         print('发生错误:', str(e))

@@ -9,6 +9,7 @@ from datetime import datetime
 # 配置日志输出到文件
 logging.basicConfig(filename='log.txt', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+
 def check_internet_connection():
     try:
         response = requests.get('http://www.纯度.site/online', timeout=1)
@@ -18,6 +19,7 @@ def check_internet_connection():
             return False
     except requests.exceptions.RequestException:
         return False
+
 
 # ... 其余代码省略 ...
 def get_yzm():
@@ -47,6 +49,8 @@ def handle(res, DAT):
     url = f'http://192.168.116.8:801/eportal/?c=Portal&a=check_captcha&callback=dr{DAT}&captcha={res}&_={DAT}'
     r = requests.get(url)
     print('提交验证码', r.status_code)
+
+
 if __name__ == '__main__':
     try:
         # 配置日志输出到控制台和文件
@@ -56,15 +60,36 @@ if __name__ == '__main__':
                             format='%(asctime)s - %(levelname)s - %(message)s',
                             handlers=[console, file_handler])
 
-        username = input('输入校园网账号：')
-        password = input('输入校园网密码：')
-        print('login')
+        try:
+            with open('login.txt', 'r', encoding='utf-8') as f:
+                lines = f.readlines()
 
+            if len(lines) >= 2:
+                username = lines[0].strip()
+                password = lines[1].strip()
+                # 在这里对账号和密码进行处理和使用
+            else:
+                print('文件内容不完整，请重新输入账号和密码')
+
+        except FileNotFoundError:
+            username = input('输入校园网账号：')
+            password = input('输入校园网密码：')
+
+            try:
+                with open('login.txt', 'w', encoding='utf-8') as f:
+                    f.write(f'{username}\n{password}')
+            except IOError:
+                print('写入文件时出现错误')
+
+        print('login')
+        i = 0
         while True:
             time.sleep(3)
 
             if check_internet_connection():
-                pass
+                i += 1
+
+                print(f'第{i}次正在断网检测')
 
             else:
                 current_time = datetime.now()

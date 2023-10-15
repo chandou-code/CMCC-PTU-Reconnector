@@ -6,7 +6,11 @@
 要求python版本<=3.9
 
 用法：进入项目cmd输入
+```
 	  pip install -r requirements.txt
+```
 安装项目依赖包
+```
 	  python start.py
+```
  运行项目

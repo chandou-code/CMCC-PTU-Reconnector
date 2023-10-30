@@ -12,7 +12,7 @@ logging.basicConfig(filename='log.txt', level=logging.INFO, format='%(asctime)s 
 
 def check_internet_connection():
     try:
-        response = requests.get('http://www.纯度.site/online', timeout=1)
+        response = requests.get('https://www.纯度.site/online', timeout=1)
         if response.status_code == 200:
             return True
         else:
@@ -59,7 +59,8 @@ if __name__ == '__main__':
         logging.basicConfig(level=logging.INFO,
                             format='%(asctime)s - %(levelname)s - %(message)s',
                             handlers=[console, file_handler])
-
+        password=''
+        username=''
         try:
             with open('login.txt', 'r', encoding='utf-8') as f:
                 lines = f.readlines()
@@ -99,6 +100,6 @@ if __name__ == '__main__':
                 login(DAT, username, password)
     except Exception as e:
         current_time = datetime.now()
-        logging.exception(f'发生错误: {str(e)} {current_time}')
-        input('按任意键退出')
+        # logging.exception(f'发生错误: {str(e)} {current_time}')
+        input(f'按任意键退出{str(e)} {current_time}')
         sys.exit(1)

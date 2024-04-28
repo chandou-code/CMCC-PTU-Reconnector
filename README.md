@@ -37,3 +37,17 @@ python start.py
 - 确保已连接到宿舍WiFi，无需联网即可运行。
 
 欢迎使用并提出改进建议！
+
+## 开机自启设置（仅适用于Windows系统）
+
+如果你希望在开机时自动启动 CMCC-PTU-Reconnector，可以将 `start.vbs` 的快捷方式添加到 Windows 启动目录。
+
+1. 首先，找到 `start.vbs` 的快捷方式。
+2. 然后，将该快捷方式复制到以下目录中：
+
+C:\Users\你的用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+
+确保将“你的用户名”替换为你的实际用户名。
+
+现在，每次 Windows 启动时，CMCC-PTU-Reconnector 将自动启动并运行，无需手动操作。如果需要取消开机自启，只需从启动目录中删除相应的快捷方式即可。

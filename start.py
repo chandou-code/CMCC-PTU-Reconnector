@@ -122,9 +122,11 @@ def main():
         while True:
 
             random_time = random.uniform(1, 4)
+            wifiname = 'CMCC-JKL'
             time.sleep(random_time)
-            print(f'休眠{random_time}')
-            if get_current_wifi_name() == 'CMCC-JKL':
+            print(f'休眠{random_time}',f'当前检测wifi名称(手动更改):{wifiname}')
+
+            if get_current_wifi_name() == wifiname:
                 if check_internet_connection():
                     i += 1
 
